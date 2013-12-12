@@ -43,6 +43,6 @@ public class LoggrrrDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-
+        //TODO: database upgrade.
     }
 }
