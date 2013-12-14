@@ -1,4 +1,4 @@
-package com.lnotes.loggrrr;
+package com.lnotes.grrr;
 
 import android.support.v7.app.ActionBarActivity;;
 import android.app.Activity;

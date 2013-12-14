@@ -1,4 +1,4 @@
-package com.lnotes.loggrrr.activity;
+package com.lnotes.grrr.activity;
 
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
-import com.lnotes.loggrrr.NavigationDrawerFragment;
-import com.lnotes.loggrrr.R;
-import com.lnotes.loggrrr.data.LoggrrrDatabaseHelper;
+import com.lnotes.grrr.NavigationDrawerFragment;
+import com.lnotes.grrr.R;
+import com.lnotes.grrr.data.GrrrDB;
+import com.lnotes.grrr.data.GrrrDatabaseHelper;
+import com.lnotes.grrr.data.Issue;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -44,13 +46,13 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        GrrrDB.createInstance(GrrrDatabaseHelper.getInstance());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        LoggrrrDatabaseHelper helper = new LoggrrrDatabaseHelper(this, "testing", null, 1);
-
     }
 
     @Override
@@ -139,7 +141,14 @@ public class MainActivity extends ActionBarActivity
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+            StringBuilder builder = new StringBuilder();
+
+            for (Issue issue : GrrrDB.getInstance().selectAllIssues()) {
+                builder.append(issue.toString());
+            }
+
+            textView.setText(builder.toString());
+            //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
 

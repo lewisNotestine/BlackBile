@@ -1,4 +1,4 @@
-package com.lnotes.loggrrr.data;
+package com.lnotes.grrr.data;
 
 import java.util.Date;
 

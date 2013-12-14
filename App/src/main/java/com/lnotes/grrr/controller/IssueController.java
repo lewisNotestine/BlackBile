@@ -1,4 +1,4 @@
-package com.lnotes.loggrrr.controller;
+package com.lnotes.grrr.controller;
 
 /**
  * Class for performing bookkeeping operations on issues and issue tags (e.g., indexing tags), etc.
