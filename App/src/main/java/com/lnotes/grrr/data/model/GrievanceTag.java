@@ -1,4 +1,4 @@
-package com.lnotes.grrr.data;
+package com.lnotes.grrr.data.model;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * </p>
  * Created by LN_1 on 12/11/13.
  */
-public class IssueTag {
+public class GrievanceTag {
     private int mId;
     private String mName;
     private Date mDateCreated;

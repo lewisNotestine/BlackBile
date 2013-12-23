@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.lnotes.grrr.NavigationDrawerFragment;
 import com.lnotes.grrr.R;
+import com.lnotes.grrr.data.model.Grievance;
 import com.lnotes.grrr.data.GrrrDB;
 import com.lnotes.grrr.data.GrrrDatabaseHelper;
-import com.lnotes.grrr.data.Issue;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -143,12 +143,11 @@ public class MainActivity extends ActionBarActivity
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             StringBuilder builder = new StringBuilder();
 
-            for (Issue issue : GrrrDB.getInstance().selectAllIssues()) {
-                builder.append(issue.toString());
+            for (Grievance grievance : GrrrDB.getInstance().selectAllGrievances()) {
+                builder.append(grievance.toString());
             }
 
             textView.setText(builder.toString());
-            //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
 

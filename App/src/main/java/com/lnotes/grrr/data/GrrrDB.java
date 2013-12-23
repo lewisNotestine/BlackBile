@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.lnotes.grrr.data.model.Grievance;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -39,35 +41,30 @@ public class GrrrDB {
 
     //TODO: implement CRUD operations.
 
-    /**
-     * <p>
-     * This is just a temp class for testing database ops.  It inserts a test dataset into the db.
-     * </p>
-     */
-    public void createTestData() {
-        mSQLiteDB.execSQL("insert into issueTags(issueTagName, createDate) VALUES('tagName1', '2013-12-11');");
-        mSQLiteDB.execSQL("insert into issues(issueName, issueTagID, createDate) VALUES('issueName1', 1, " + Calendar.getInstance().get(Calendar.SECOND) + ")");
-        mSQLiteDB.execSQL("insert into issues(issueName, issueTagID, createDate) VALUES('issueName2', null, " + Calendar.getInstance().get(Calendar.SECOND) + ")");
-    }
 
     /**
      * <p>
-     * gets all issues, independent of tags.
+     * gets all grievances, independent of tags.
      * TODO: handle the tags.
      * </p>
      */
-    public List<Issue> selectAllIssues() {
-        String[] columns = {"issuesID", "issueName", "issueTagID", "createDate" };
-        Cursor cursor = mSQLiteDB.query(false, "issues", columns, null, null, null, null, null, null);
-        List<Issue> outList = new ArrayList<Issue>();
+    public List<Grievance> selectAllGrievances() {
+        Cursor cursor = mSQLiteDB.rawQuery("select " +
+                "gty.grievanceTypeID, " +
+                "gtk.grievanceTokenID, " +
+                "gty.grievanceTypeName, " +
+                "gtk.createDateTime " +
+                "from grievanceTokens AS gtk " +
+                "inner join grievanceTypes AS gty on gtk.grievanceTypeID = gty.grievanceTypeID", null);
+        List<Grievance> outList = new ArrayList<Grievance>();
         while (cursor.moveToNext()) {
-            int ID = cursor.getInt(cursor.getColumnIndex("issuesID"));
-            String name = cursor.getString(cursor.getColumnIndex("issueName"));
-            int tagID = cursor.getInt(cursor.getColumnIndex("issueTagID"));
+            int typeID = cursor.getInt(cursor.getColumnIndex("grievanceTypeID"));
+            int tokenID = cursor.getInt(cursor.getColumnIndex("grievanceTokenID"));
+            String name = cursor.getString(cursor.getColumnIndex("grievanceTypeName"));
 
-            //We'll eventually mediate all calls to create Issue object to the IssueController.
-            Issue issue = new Issue(ID, name, tagID);
-            outList.add(issue);
+            //TODO: We'll eventually mediate all calls to create grievance object to the grievanceController.
+            Grievance grievance = new Grievance(typeID, tokenID, name);
+            outList.add(grievance);
         }
 
         return outList;
