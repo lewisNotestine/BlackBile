@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/listitem_grievance_type_grievance_typename"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="defaultGrievanceTypeName"/>
+
+    <TextView
+        android:id="@+id/listitem_grievance_type_grievance_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/listitem_grievance_type_grievance_typename"
+        android:text="1,000,000"/>
+
+    <Button
+        android:id="@+id/listitem_grievance_type_log_grievance_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Log"/>
+</RelativeLayout>

@@ -19,18 +19,17 @@ import com.lnotes.grrr.R;
 import com.lnotes.grrr.data.model.Grievance;
 import com.lnotes.grrr.data.GrrrDB;
 import com.lnotes.grrr.data.GrrrDatabaseHelper;
+import com.lnotes.grrr.fragment.GrievanceTypeListFragment;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
+    private static final int TAGS_DRAWER_POSITION = 0;
+
+    /**Fragment managing the behaviors, interactions and presentation of the navigation drawer.*/
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
+    /**Used to store the last screen title. For use in {@link #restoreActionBar()}. */
     private CharSequence mTitle;
 
     @Override
@@ -59,9 +58,16 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        if (position == TAGS_DRAWER_POSITION) {
+            //TODO: right thing here. Should fragments be singletons?
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, new GrievanceTypeListFragment())
+                    .commit();
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                    .commit();
+        }
     }
 
     public void onSectionAttached(int number) {
