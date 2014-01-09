@@ -28,15 +28,15 @@ public class GrievanceType {
     private int mCountInstances;
     private Date mMostRecentLogged;
 
-    public GrievanceType(int id, String typeName, String createDateString) {
+    public GrievanceType(int id, String typeName, String createDateString, int countInstances) {
         try {
             mID = id;
             mTypeName = typeName;
             mCreateDateTime = new SimpleDateFormat(GrrrDatabaseHelper.DATE_FORMAT, Locale.ENGLISH).parse(createDateString);
 
-            //TODO: should this really be happening? Should probably be managed using an aggregate SQL function>
-            mCountInstances = GrievanceController.getInstance().getCountOfGrievancesOfType(mID);
-        } catch (ParseException ex) {
+            //TODO: should this really be happening? Should probably be managed using an aggregate SQL function
+            mCountInstances = countInstances;
+        } catch(ParseException ex) {
             mCreateDateTime = new Date();
         }
     }

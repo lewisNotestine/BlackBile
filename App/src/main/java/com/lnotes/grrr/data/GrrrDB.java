@@ -84,13 +84,17 @@ public class GrrrDB {
         Cursor cursor = mSQLiteDB.rawQuery("select " +
                 "gtyp.grievanceTypeID, " +
                 "gtyp.grievanceTypeName, " +
-                "gtyp.createDateTime " +
-                "from grievanceTypes AS gtyp;", null);
+                "gtyp.createDateTime, " +
+                "count(gtk.grievanceTokenID) AS countInstances " +
+                "FROM grievanceTypes AS gtyp " +
+                "LEFT OUTER JOIN grievanceTokens AS gtk on gtyp.grievanceTypeID = gtk.grievanceTypeID " +
+                "GROUP BY gtyp.grievanceTypeID; ", null);
         while (cursor.moveToNext()) {
             int typeID = cursor.getInt(cursor.getColumnIndex("grievanceTypeID"));
             String name = cursor.getString(cursor.getColumnIndex("grievanceTypeName"));
             String dateString = cursor.getString(cursor.getColumnIndex("createDateTime"));
-            GrievanceType grievanceType = new GrievanceType(typeID, name, dateString);
+            int countInstances = cursor.getInt(cursor.getColumnIndex("countInstances"));
+            GrievanceType grievanceType = new GrievanceType(typeID, name, dateString, countInstances);
             //TODO: cache the grievanceType here.
             tempList.add(grievanceType);
         }
