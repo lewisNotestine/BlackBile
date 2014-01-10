@@ -14,7 +14,9 @@ import com.lnotes.grrr.R;
 import java.util.List;
 
 /**
- * <p></p>
+ * <p>
+ * ListAdapter for a {@link com.lnotes.grrr.data.model.GrievanceType} list.
+ * </p>
  * Created by LN_1 on 12/23/13.
  */
 public class GrievanceTypeListAdapter extends ArrayAdapter<GrievanceType> {
