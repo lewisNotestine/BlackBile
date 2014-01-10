@@ -10,4 +10,12 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
+    <string name="grievancelist_addgrievance">Your misery defies these constraints? Add a grievance.</string>
+    <string name="grievancelist_addgrievance_button">add a grievance</string>
+    <string name="grievancelist_questionmark">\?</string>
+    <string name="grievancelist_title">These are your grievances; behold your suffering</string>
+
+    <string name="grievancetype_listitem_createdate">Create Date:</string>
+    <string name="grievancetype_listitem_log">Log It</string>
+
 </resources>

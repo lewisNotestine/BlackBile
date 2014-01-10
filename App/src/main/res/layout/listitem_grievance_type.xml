@@ -7,21 +7,26 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="defaultGrievanceTypeName"/>
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/listitem_grievance_type_grievance_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/listitem_grievance_type_grievance_typename"
-        android:text="1,000,000"/>
+        android:layout_below="@+id/listitem_grievance_type_grievance_typename"/>
+
+    <TextView
+        android:id="@+id/listitem_grievance_type_createDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/listitem_grievance_type_grievance_count"
+        android:layout_below="@+id/listitem_grievance_type_grievance_typename"/>
 
     <Button
         android:id="@+id/listitem_grievance_type_log_grievance_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="Log"/>
+        android:text="@string/grievancetype_listitem_log"/>
 </RelativeLayout>

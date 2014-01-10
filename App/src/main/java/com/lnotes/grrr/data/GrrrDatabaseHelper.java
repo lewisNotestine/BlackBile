@@ -16,7 +16,7 @@ import java.util.Calendar;
  */
 public class GrrrDatabaseHelper extends SQLiteOpenHelper {
 
-    public static String DATE_FORMAT = "yyyy-MM-dd-kk:mm:ss";
+    public static String DATE_FORMAT = "yyyy-MM-dd";
 
 
     /**
@@ -38,7 +38,7 @@ public class GrrrDatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_GRIEVANCE_TYPES = "CREATE TABLE grievanceTypes (grievanceTypeID integer primary key autoincrement, " +
             "grievanceTypeName string not null," +
             "createDateTime text not null);" +
-            "CREATE UNIQUE INDEX idxUniqueGrievanceName ON grievances(grievanceTypeName COLLATE nocase);";
+            "CREATE UNIQUE INDEX idxUniqueGrievanceName ON grievanceTypes(grievanceTypeName COLLATE nocase);";
 
 
     /**
@@ -79,7 +79,7 @@ public class GrrrDatabaseHelper extends SQLiteOpenHelper {
             "grievanceTokenID integer not null," +
             "grievanceTagID integer not null," +
             "isSubtracted integer not null," +
-            "UNIQUE(grievanceTokenID, grievanceTagID) ON CONFLICT ROLLBACK," +
+            "UNIQUE(grievanceTokenID, grievanceTagID) ON CONFLICT ROLLBACK, " +
             "FOREIGN KEY(grievanceTokenID) REFERENCES grievanceTokens(grievanceTokenID)," +
             "FOREIGN KEY(grievanceTagID) REFERENCES grievanceTags(grievanceTagID));";
 
@@ -123,8 +123,14 @@ public class GrrrDatabaseHelper extends SQLiteOpenHelper {
      */
     public void createTestData(SQLiteDatabase database) {
         database.execSQL("insert into grievanceTags(grievanceTagName, createDateTime) VALUES('tagName1', '2013-12-11');");
-        database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName', '" + Calendar.getInstance().get(Calendar.SECOND) +"');");
-        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 1, '" + Calendar.getInstance().get(Calendar.SECOND) + "');");
+        database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName', '2013-12-11');");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 1, '2013-12-11');");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 1, '2013-12-11');");
+        database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName2', '2013-12-11');");
+        database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName3', '2013-12-11');");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 2, '2013-12-11');");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 3, '2013-12-11');");
+
         //TODO: try to insert tags.  Just working on bare bones stuff for now.
     }
 }

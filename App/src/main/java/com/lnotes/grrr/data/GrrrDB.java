@@ -77,7 +77,6 @@ public class GrrrDB {
      * Return all the distinct Grievance Types from the database.
      * </p>
      * @return A list of all the GrievanceTypes in the DB.
-     * //TODO: optimize, cache, blah blah blah.
      */
     public List<GrievanceType> selectAllGrievanceTypes() {
         List<GrievanceType> tempList = new ArrayList<>();
@@ -106,7 +105,6 @@ public class GrrrDB {
     /**
      * <p>
      * Return the count of grievances of a particular type in the database
-     * //TODO: consider making this part of Grievance's responsibility and not making too many DB calls as part of a listAdapter as is currently being done.
      * </p>
      */
     public int selectCountOfGrievancesByType(int typeID) {

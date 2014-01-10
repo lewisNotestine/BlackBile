@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
-        android:text="These are your grievances; behold your suffering"/>
+        android:text="@string/grievancelist_title"/>
 
     <ListView
         android:id="@+id/grievance_list_listview"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="Your misery defies these constraints? Add a grievance."
+            android:text="@string/grievancelist_addgrievance"
             android:gravity="center" />
 
         <Button
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/grievance_list_add_grievance_title"
             android:layout_alignParentLeft="true"
-            android:text="add a grievance"/>
+            android:text="@string/grievancelist_addgrievance_button"/>
 
         <Button
             android:id="@+id/grievance_list_whatsthis_button"
@@ -47,7 +47,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/grievance_list_add_grievance_title"
             android:layout_toRightOf="@+id/grievance_list_add_grievance_button"
-            android:text="\?"/>
+            android:text="@string/grievancelist_questionmark"/>
 
 
 

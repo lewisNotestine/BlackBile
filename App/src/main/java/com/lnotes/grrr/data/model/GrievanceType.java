@@ -26,18 +26,16 @@ public class GrievanceType {
      * Tracks the number of {@link com.lnotes.grrr.data.model.Grievance} objects of this type constructed
      */
     private int mCountInstances;
-    private Date mMostRecentLogged;
+    private Date mMostRecentLogged; //TODO.
 
     public GrievanceType(int id, String typeName, String createDateString, int countInstances) {
         try {
             mID = id;
             mTypeName = typeName;
             mCreateDateTime = new SimpleDateFormat(GrrrDatabaseHelper.DATE_FORMAT, Locale.ENGLISH).parse(createDateString);
-
-            //TODO: should this really be happening? Should probably be managed using an aggregate SQL function
             mCountInstances = countInstances;
         } catch(ParseException ex) {
-            mCreateDateTime = new Date();
+            throw new RuntimeException(ex.getMessage());
         }
     }
 
@@ -69,7 +67,11 @@ public class GrievanceType {
         return mTypeName;
     }
 
-    public int  getCountInstances() {
+    public int getCountInstances() {
         return mCountInstances;
+    }
+
+    public Date getCreateDate() {
+        return mCreateDateTime;
     }
 }
