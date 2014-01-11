@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:id="@+id/dialog_addgrievancetype_addnamerow"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/dialog_addgrievancetype_addnamelabel"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="@string/dialog_addgrievancetype_name"/>
+
+        <EditText
+            android:id="@+id/dialog_addgrievancetype_addnametext"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:inputType="text"/>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/dialog_addgrievancetype_tagsrow"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/dialog_addgrievancetype_tags_label"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="@string/dialog_addgrievancetype_tags"/>
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/dialog_addgrievancetype_tags_edittext"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"/>
+
+    </TableRow>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/dialog_addgrievancetype_confirmbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_addgrievancetype_confirmbutton"/>
+
+        <Button
+            android:id="@+id/dialog_addgrievancetype_cancelbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/dialog_addgrievancetype_confirmbutton"
+            android:text="@string/dialog_addgrievancetype_cancelbutton"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
+

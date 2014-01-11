@@ -5,12 +5,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.lnotes.grrr.R;
 import com.lnotes.grrr.controller.GrievanceController;
-import com.lnotes.grrr.data.model.Grievance;
 import com.lnotes.grrr.data.model.GrievanceType;
 import com.lnotes.grrr.widget.GrievanceTypeListAdapter;
 
@@ -26,9 +25,12 @@ import java.util.List;
  */
 public class GrievanceTypeListFragment extends Fragment {
 
+    private static final String DIALOG_TAG = "addGrievanceTypeDialog";
+
     private ListView mGrievanceTypesListView;
     private GrievanceTypeListAdapter mGrievanceTypesListAdapter;
     private List<GrievanceType> mGrievanceTypes;
+    private Button mAddGrievanceTypeButton;
 
 
     @Override
@@ -40,7 +42,18 @@ public class GrievanceTypeListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-        return inflater.inflate(R.layout.fragment_grievance_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_grievance_list, container, false);
+        if (view != null) {
+            mAddGrievanceTypeButton = (Button) view.findViewById(R.id.grievance_list_add_grievance_button);
+            mAddGrievanceTypeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AddGrievanceTypeDialogFragment().show(getActivity().getSupportFragmentManager(), DIALOG_TAG);
+                }
+            });
+        }
+
+        return view;
     }
 
     @Override
