@@ -120,4 +120,19 @@ public class GrrrDB {
 
         return count;
     }
+
+
+    /**
+     * <p>
+     * Gets a {@link android.database.Cursor} representing {@link com.lnotes.grrr.data.model.GrievanceTag} objects
+     * to be used by client widgets,
+     * as in {@link com.lnotes.grrr.fragment.AddGrievanceTypeDialogFragment#setDataForAutoCompletion()}.
+     * </p>
+     */
+    public Cursor getTagsCursor() {
+        return mSQLiteDB.rawQuery("select " +
+                "grievanceTagID as _id, " +
+                "grievanceTagName " +
+                " from grievanceTags", null);
+    }
 }
