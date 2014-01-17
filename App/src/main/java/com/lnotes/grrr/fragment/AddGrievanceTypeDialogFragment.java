@@ -30,7 +30,6 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
     private Button mCancelButton;
     private MultiAutoCompleteTextView mInsertTagsTextView;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -72,7 +71,7 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
 
         mInsertTagsTextView.setAdapter(tagsCursorAdapter);
         mInsertTagsTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-    }
+}
 
 
     /**
