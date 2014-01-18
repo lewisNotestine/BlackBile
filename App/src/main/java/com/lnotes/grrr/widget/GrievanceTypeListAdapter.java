@@ -54,8 +54,8 @@ public class GrievanceTypeListAdapter extends ArrayAdapter<GrievanceType> {
         }
 
         GrievanceType item = getItem(position);
-        viewHolder.grievanceTypeName.setText(item.getGrievanceTypeName());
-        String count = String.format("%02d", item.getCountInstances());
+        viewHolder.grievanceTypeName.setText(item.getName());
+        String count = "99"; //TODO: this needs to have been created already.
         viewHolder.grievanceCountName.setText(count);
         String createDateString = new StringBuilder()
                 .append(sCreateDateString)
