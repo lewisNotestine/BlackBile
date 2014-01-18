@@ -15,6 +15,12 @@ import android.widget.MultiAutoCompleteTextView;
 
 import com.lnotes.grrr.R;
 import com.lnotes.grrr.data.GrrrDB;
+import com.lnotes.grrr.data.model.GrievanceTag;
+import com.lnotes.grrr.data.model.GrievanceType;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p>
@@ -30,22 +36,28 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
     private Button mCancelButton;
     private MultiAutoCompleteTextView mInsertTagsTextView;
 
+    private static final String[] TAG_DISPLAY_SOURCE_COLUMNS = { "grievanceTagName" };
+    private static final int[] TAG_TO_RESOURCE_IDS = { android.R.layout.simple_list_item_1 };
+    private static final int[] TAG_AUTOCOMPLETE_LAYOUT = { android.R.id.text1 };
+    private static final int TAG_DISPLAY_COLUMN_INDEX = 1;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_addgrievancetype_dialog, container, false);
-        mInsertTagsTextView = (MultiAutoCompleteTextView) v.findViewById(R.id.dialog_addgrievancetype_tags_edittext);
-        setDataForAutoCompletion();
+        final View v = inflater.inflate(R.layout.fragment_addgrievancetype_dialog, container, false);
+        if (v != null) {
+            mEnterNameEditText = (EditText) v.findViewById(R.id.dialog_addgrievancetype_addnametext);
 
-        mCancelButton = (Button) v.findViewById(R.id.dialog_addgrievancetype_cancelbutton);
+            mInsertTagsTextView = (MultiAutoCompleteTextView) v.findViewById(R.id.dialog_addgrievancetype_tags_edittext);
+            setDataForAutoCompletion();
 
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+            mCancelButton = (Button) v.findViewById(R.id.dialog_addgrievancetype_cancelbutton);
+            mCancelButton.setOnClickListener(new CancelListener());
 
+            mConfirmButton = (Button) v.findViewById(R.id.dialog_addgrievancetype_confirmbutton);
+            mConfirmButton.setOnClickListener(new ConfirmListener());
+        }
         return v;
     }
 
@@ -56,36 +68,66 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
      */
     private void setDataForAutoCompletion() {
 
-        Cursor tagsCursor = GrrrDB.getInstance().getTagsCursor();
-
-        //TODO: consider factoring out cursor adapter into its own class or inner class?
-        String[] columns = { "grievanceTagName" };
-        int[] resourceIds = { android.R.layout.simple_list_item_1 };
-        CursorAdapter tagsCursorAdapter = new TagsCursorAdapter(getActivity(),
-                resourceIds[0],
-                tagsCursor,
-                columns,
-                new int[] { android.R.id.text1 },
-                0,
-                tagsCursor.getColumnIndex(columns[0]));
+        final CursorAdapter tagsCursorAdapter = new TagsCursorAdapter(getActivity(), 0); //TODO: Set flags/managers as necessary.
 
         mInsertTagsTextView.setAdapter(tagsCursorAdapter);
         mInsertTagsTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-}
+    }
 
 
     /**
      * <p>
      * Extends {@link android.support.v4.widget.SimpleCursorAdapter} to take a column index for
      * the purpose of rendering a string.
-     * //TODO: consider internalizing the DB ops in the caller into this class.
      * </p>
      */
     private class TagsCursorAdapter extends SimpleCursorAdapter {
 
-        public TagsCursorAdapter(Context context, int resourceId, Cursor cursor, String[] columns, int[] to, int flags, int stringColumnIndex) {
-            super(context, resourceId, cursor, columns, to, flags);
-            setStringConversionColumn(stringColumnIndex);
+        public TagsCursorAdapter(Context context, int flags) {
+            super(context, TAG_TO_RESOURCE_IDS[0],
+                    GrrrDB.getInstance().getTagsCursor(),
+                    TAG_DISPLAY_SOURCE_COLUMNS,
+                    TAG_AUTOCOMPLETE_LAYOUT,
+                    flags);
+            setStringConversionColumn(TAG_DISPLAY_COLUMN_INDEX);
+        }
+    }
+
+    private void updateListAdapter() {
+        mInsertTagsTextView.invalidate();
+    }
+
+    /**
+     * <p>
+     * Listener for the
+     * </p>
+     */
+    private class ConfirmListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            if (mEnterNameEditText.getText() != null && mEnterNameEditText.getText().toString().length() > 0) {
+                final GrievanceType newGrievanceType = new GrievanceType(mEnterNameEditText.getText().toString());
+
+                final Cursor cursor = ((Cursor) mInsertTagsTextView.getAdapter().getItem(0));
+                if (cursor != null && cursor.getCount() > 0) {
+                    while (cursor.moveToNext()) {
+                        final String tagName = cursor.getString(cursor.getColumnIndex("grievanceTagName"));
+                        GrievanceTag newGrievanceTag = new GrievanceTag(tagName);
+                        newGrievanceType.addGrievanceTag(newGrievanceTag);
+                    }
+                }
+
+                GrrrDB.getInstance().insertGrievanceType(newGrievanceType);
+                updateListAdapter();
+                dismiss();
+            }
+        }
+    }
+
+    private class CancelListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            dismiss();
         }
     }
 }

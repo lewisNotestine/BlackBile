@@ -1,12 +1,11 @@
 package com.lnotes.grrr.data.model;
 
-import com.lnotes.grrr.controller.GrievanceController;
 import com.lnotes.grrr.data.GrrrDatabaseHelper;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p>
@@ -17,61 +16,78 @@ import java.util.Locale;
  */
 public class GrievanceType {
 
-
-    private int mID;
     private String mTypeName;
     private Date mCreateDateTime;
+    private Set<GrievanceTag> mGrievanceTags;
 
     /**
      * Tracks the number of {@link com.lnotes.grrr.data.model.Grievance} objects of this type constructed
      */
     private int mCountInstances;
-    private Date mMostRecentLogged; //TODO.
 
-    public GrievanceType(int id, String typeName, String createDateString, int countInstances) {
+    /**
+     * This ctor is intended for use when reading from DB.
+     * //TODO: consider a factory for creating GrievanceTypes instead of this...
+     */
+    public GrievanceType(String typeName, String createDateString, int countInstances) {
         try {
-            mID = id;
             mTypeName = typeName;
-            mCreateDateTime = new SimpleDateFormat(GrrrDatabaseHelper.DATE_FORMAT, Locale.ENGLISH).parse(createDateString);
+            mCreateDateTime = GrrrDatabaseHelper.DATE_FORMAT.parse(createDateString);
+            mGrievanceTags = new HashSet<>();
             mCountInstances = countInstances;
-        } catch(ParseException ex) {
-            throw new RuntimeException(ex.getMessage());
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * This ctor is only intended for use when creating an altogether new GrievanceType
+     * (rather than reading one from the database).
+     */
+    public GrievanceType(String typeName) {
+       this(typeName, GrrrDatabaseHelper.DATE_FORMAT.format(new Date()), 0);
     }
 
     @Override
     public boolean equals(Object otherGrievanceType) {
-        return otherGrievanceType instanceof GrievanceType && ((GrievanceType) otherGrievanceType).mID == mID;
+        return otherGrievanceType instanceof GrievanceType && ((GrievanceType) otherGrievanceType).mTypeName == mTypeName;
     }
 
     @Override
     public int hashCode() {
         int hash = 1;
-        hash = hash * 31 + mID;
+        hash = hash * 31 + mTypeName.hashCode();
         return hash;
     }
 
     @Override
     public String toString() {
-        return new StringBuilder().append(" ID: ").append(mID)
+        return new StringBuilder()
                 .append(" Name: ").append(mTypeName)
                 .append(" CreateDate: ").append(mCreateDateTime)
                 .append('\n').toString();
     }
 
-    public int getID() {
-        return mID;
-    }
-
-    public String getGrievanceTypeName() {
+    public String getName() {
         return mTypeName;
-    }
-
-    public int getCountInstances() {
-        return mCountInstances;
     }
 
     public Date getCreateDate() {
         return mCreateDateTime;
     }
+
+    public Set<GrievanceTag> getGrievanceTags() {
+        return mGrievanceTags;
+    }
+
+    /**
+     * <p>
+     * adds a tag to the set of tags.
+     * @return true if the add operation succeeds, false otherwise.
+     * </p>
+     */
+    public boolean addGrievanceTag(GrievanceTag newTag) {
+        return mGrievanceTags.add(newTag);
+    }
+
 }
