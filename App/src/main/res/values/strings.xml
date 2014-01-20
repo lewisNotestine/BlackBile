@@ -15,7 +15,11 @@
     <string name="grievancelist_questionmark">\?</string>
     <string name="grievancelist_title">These are your grievances; behold your suffering</string>
 
-    <string name="grievancetype_listitem_createdate">Create Date:</string>
+    <string name="grievancetype_listitem_createdate">Create Date: </string>
     <string name="grievancetype_listitem_log">Log It</string>
 
+    <string name="dialog_addgrievancetype_name">Description: </string>
+    <string name="dialog_addgrievancetype_tags">Add Tags (Optional)</string>
+    <string name="dialog_addgrievancetype_confirmbutton">Confirm</string>
+    <string name="dialog_addgrievancetype_cancelbutton">Cancel</string>
 </resources>

@@ -1,14 +1,16 @@
 package com.lnotes.grrr.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.lnotes.grrr.data.model.Grievance;
+import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
 
+import android.database.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -93,7 +95,7 @@ public class GrrrDB {
             String name = cursor.getString(cursor.getColumnIndex("grievanceTypeName"));
             String dateString = cursor.getString(cursor.getColumnIndex("createDateTime"));
             int countInstances = cursor.getInt(cursor.getColumnIndex("countInstances"));
-            GrievanceType grievanceType = new GrievanceType(typeID, name, dateString, countInstances);
+            GrievanceType grievanceType = new GrievanceType(name, dateString, countInstances);
             //TODO: cache the grievanceType here.
             tempList.add(grievanceType);
         }
@@ -119,5 +121,55 @@ public class GrrrDB {
         }
 
         return count;
+    }
+
+
+    /**
+     * <p>
+     * Gets a {@link android.database.Cursor} representing {@link com.lnotes.grrr.data.model.GrievanceTag} objects
+     * to be used by client widgets,
+     * as in {@link com.lnotes.grrr.fragment.AddGrievanceTypeDialogFragment#setDataForAutoCompletion()}.
+     * </p>
+     * @return the cursor that reprsents all {@link com.lnotes.grrr.data.model.GrievanceTag} objects in the db.
+     */
+    public Cursor getTagsCursor() {
+        return mSQLiteDB.rawQuery("select " +
+                "grievanceTagID as _id, " +
+                "grievanceTagName " +
+                " from grievanceTags", null);
+    }
+
+    public boolean insertGrievanceType(GrievanceType newGrievanceType) {
+        try {
+            ContentValues typeValues = new ContentValues();
+            typeValues.put("grievanceTypeName", newGrievanceType.getName());
+            typeValues.put("createDateTime", GrrrDatabaseHelper.DATE_FORMAT.format(newGrievanceType.getCreateDate()));
+            final long typeRowId = mSQLiteDB.insertWithOnConflict("grievanceTypes", null, typeValues, SQLiteDatabase.CONFLICT_IGNORE);
+
+            for (GrievanceTag tag : newGrievanceType.getGrievanceTags()) {
+                ContentValues tagValues = new ContentValues();
+                tagValues.put("grievanceTagName", tag.getName());
+                tagValues.put("createDateTime", GrrrDatabaseHelper.DATE_FORMAT.format(tag.getDateCreated()));
+                final long tagRowId = mSQLiteDB.insertWithOnConflict("grievanceTags", null, tagValues, SQLiteDatabase.CONFLICT_IGNORE);
+
+                ContentValues tagTypeValues = new ContentValues();
+                tagTypeValues.put("grievanceTypeID", typeRowId);
+                tagTypeValues.put("grievanceTagID", tagRowId);
+                mSQLiteDB.insertWithOnConflict("grievanceTypesTags", null, tagTypeValues, SQLiteDatabase.CONFLICT_IGNORE);
+            }
+
+            return true;
+        } catch (SQLException ex) {
+            //TODO: better exception handling, instead of using this to do flow control here.
+            return false;
+        }
+    }
+
+    public boolean insertGrievanceTag(GrievanceTag newGrievanceTag) {
+        return false;
+    }
+
+    public boolean insertGrievanceTypeTag(GrievanceTag tag, GrievanceType type) {
+        return false;
     }
 }

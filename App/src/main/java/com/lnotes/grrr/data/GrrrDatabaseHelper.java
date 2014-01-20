@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.lnotes.grrr.GrrrApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -16,7 +17,8 @@ import java.util.Calendar;
  */
 public class GrrrDatabaseHelper extends SQLiteOpenHelper {
 
-    public static String DATE_FORMAT = "yyyy-MM-dd";
+    public static String DATE_FORMAT_STRING = "yyyy-MM-dd";
+    public static SimpleDateFormat DATE_FORMAT  = new SimpleDateFormat(DATE_FORMAT_STRING);
 
 
     /**
@@ -123,6 +125,8 @@ public class GrrrDatabaseHelper extends SQLiteOpenHelper {
      */
     public void createTestData(SQLiteDatabase database) {
         database.execSQL("insert into grievanceTags(grievanceTagName, createDateTime) VALUES('tagName1', '2013-12-11');");
+        database.execSQL("insert into grievanceTags(grievanceTagName, createDateTime) VALUES('tagName2', '2013-12-11');");
+        database.execSQL("insert into grievanceTags(grievanceTagName, createDateTime) VALUES('tagName3', '2013-12-11');");
         database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName', '2013-12-11');");
         database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 1, '2013-12-11');");
         database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 1, '2013-12-11');");
@@ -130,7 +134,5 @@ public class GrrrDatabaseHelper extends SQLiteOpenHelper {
         database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName3', '2013-12-11');");
         database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 2, '2013-12-11');");
         database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 3, '2013-12-11');");
-
-        //TODO: try to insert tags.  Just working on bare bones stuff for now.
     }
 }
