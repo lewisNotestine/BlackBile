@@ -22,4 +22,8 @@
     <string name="dialog_addgrievancetype_tags">Add Tags (Optional)</string>
     <string name="dialog_addgrievancetype_confirmbutton">Confirm</string>
     <string name="dialog_addgrievancetype_cancelbutton">Cancel</string>
+
+    <string name="dialog_addgrievancetoken_added">Grievance logged!</string>
+    <string name="undo">Undo</string>
+
 </resources>

@@ -2,17 +2,17 @@ package com.lnotes.grrr.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.lnotes.grrr.data.GrrrDB;
 import com.lnotes.grrr.data.model.GrievanceType;
 import com.lnotes.grrr.R;
+import com.lnotes.grrr.fragment.LoggedGrievanceTokenDialogFragment;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ import java.util.List;
 public class GrievanceTypeListAdapter extends ArrayAdapter<GrievanceType> {
 
     private int mLayoutResourceID;
-    private Toast mToast;
+    private LoggedGrievanceTokenDialogFragment mDialog;
 
     private static String sCreateDateString;
-    private static final String LOG_MESSAGE_TOAST = "Grievance Logged!";
+    private static final String DIALOG_TAG = "grievanceLoggedDialog";
 
     public GrievanceTypeListAdapter(Context context, int layoutResourceID, List<GrievanceType> grievanceTypeList) {
         super(context, layoutResourceID, grievanceTypeList);
@@ -96,15 +96,10 @@ public class GrievanceTypeListAdapter extends ArrayAdapter<GrievanceType> {
 
         @Override
         public void onClick(View view) {
-            GrrrDB.getInstance().insertGrievanceToken(mGrievanceType);
-            if (mToast != null) {
-                mToast.cancel();
-                mToast = null;
+            if (mDialog == null) {
+                mDialog = new LoggedGrievanceTokenDialogFragment(mGrievanceType);
             }
-            
-            //TODO: make this a DialogFragment so the user can undo it.
-            mToast = Toast.makeText(getContext(), LOG_MESSAGE_TOAST, Toast.LENGTH_SHORT);
-            mToast.show();
+            mDialog.show(((FragmentActivity) getContext()).getSupportFragmentManager(), DIALOG_TAG);
         }
     }
 }
