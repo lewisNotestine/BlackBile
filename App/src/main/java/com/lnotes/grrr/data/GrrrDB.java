@@ -10,8 +10,8 @@ import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
 
 import android.database.SQLException;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +19,6 @@ import java.util.List;
  * Responsible for wrapping a SQLiteDatabase and handling querying and CRUD operations on it.
  * </p>
  * Created by LN_1 on 12/11/13.
- * //TODO: consider making a singleton.
  */
 public class GrrrDB {
 
@@ -43,13 +42,9 @@ public class GrrrDB {
         mSQLiteDB = dbHelper.getWritableDatabase();
     }
 
-    //TODO: implement CRUD operations.
-
-
     /**
      * <p>
      * gets all grievances, independent of tags.
-     * TODO: handle the tags.
      * </p>
      */
     public List<Grievance> selectAllGrievances() {
@@ -78,6 +73,7 @@ public class GrrrDB {
      * <p>
      * Return all the distinct Grievance Types from the database.
      * </p>
+     *
      * @return A list of all the GrievanceTypes in the DB.
      */
     public List<GrievanceType> selectAllGrievanceTypes() {
@@ -91,7 +87,6 @@ public class GrrrDB {
                 "LEFT OUTER JOIN grievanceTokens AS gtk on gtyp.grievanceTypeID = gtk.grievanceTypeID " +
                 "GROUP BY gtyp.grievanceTypeID; ", null);
         while (cursor.moveToNext()) {
-            int typeID = cursor.getInt(cursor.getColumnIndex("grievanceTypeID"));
             String name = cursor.getString(cursor.getColumnIndex("grievanceTypeName"));
             String dateString = cursor.getString(cursor.getColumnIndex("createDateTime"));
             int countInstances = cursor.getInt(cursor.getColumnIndex("countInstances"));
@@ -111,7 +106,7 @@ public class GrrrDB {
      */
     public int selectCountOfGrievancesByType(int typeID) {
         int count = 0;
-        String[] args = new String[] {String.format("%02d", typeID)};
+        String[] args = new String[]{String.format("%02d", typeID)};
         Cursor cursor = mSQLiteDB.rawQuery("select COUNT(*) as count from " +
                 "grievanceTypes gtyp " +
                 "INNER JOIN grievances g on gtyp.grievanceTypeID = g.grievanceTypeID " +
@@ -130,6 +125,7 @@ public class GrrrDB {
      * to be used by client widgets,
      * as in {@link com.lnotes.grrr.fragment.AddGrievanceTypeDialogFragment#setDataForAutoCompletion()}.
      * </p>
+     *
      * @return the cursor that reprsents all {@link com.lnotes.grrr.data.model.GrievanceTag} objects in the db.
      */
     public Cursor getTagsCursor() {
@@ -167,6 +163,20 @@ public class GrrrDB {
 
     public boolean insertGrievanceTag(GrievanceTag newGrievanceTag) {
         return false;
+    }
+
+    public boolean insertGrievanceToken(GrievanceType grievanceType) {
+        try {
+            //TODO: need to implement proper relationships etcs.
+            mSQLiteDB.execSQL("INSERT INTO grievanceTokens (grievanceTypeId, createDateTime) " +
+                    "select grievanceTypeId, " +
+                    GrrrDatabaseHelper.DATE_FORMAT.format(grievanceType.getCreateDate()) + " " +
+                    "FROM grievanceTypes " +
+                    "WHERE grievanceTypeName = " + grievanceType.getName());
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean insertGrievanceTypeTag(GrievanceTag tag, GrievanceType type) {

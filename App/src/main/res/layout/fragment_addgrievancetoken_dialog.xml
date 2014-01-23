@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dialog_addgrievancetoken_height"
+    android:gravity="bottom">
+
+    <!--TODO: need to use dimen values for width here, set size of the dialog layout, etc.-->
+    <TextView
+        android:id="@+id/dialog_addgrievancetoken_tokenadded"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:text="@string/dialog_addgrievancetoken_added"
+        android:gravity="center"
+        style="@style/dialogtext"/>
+
+    <Button
+        android:id="@+id/dialog_addgrievancetoken_undoadd"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:drawableTop="@android:drawable/ic_menu_revert"
+        android:textAlignment="center"
+        android:text="@string/undo"
+        style="@style/dialogtext"/>
+</LinearLayout>
