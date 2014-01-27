@@ -1,4 +1,4 @@
-package com.lnotes.grrr.data;
+package com.lnotes.grrr.data.definition;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -49,12 +49,12 @@ public class GrrrDB {
      */
     public List<Grievance> selectAllGrievances() {
         Cursor cursor = mSQLiteDB.rawQuery("select " +
-                "gty.grievanceTypeID, " +
-                "gtk.grievanceTokenID, " +
+                "gty." + BlackBileDatabaseHelper.COLUMN_ID + " as grievanceTypeID, " +
+                "gtk." + BlackBileDatabaseHelper.COLUMN_ID + " as grievanceTokenID, " +
                 "gty.grievanceTypeName, " +
                 "gtk.createDateTime " +
-                "from grievanceTokens AS gtk " +
-                "inner join grievanceTypes AS gty on gtk.grievanceTypeID = gty.grievanceTypeID", null);
+                "FROM grievanceTokens AS gtk " +
+                "INNER JOIN grievanceTypes AS gty on gtk.grievanceTypeID = gty." + BlackBileDatabaseHelper.COLUMN_ID, null);
         List<Grievance> outList = new ArrayList<Grievance>();
         while (cursor.moveToNext()) {
             int typeID = cursor.getInt(cursor.getColumnIndex("grievanceTypeID"));
@@ -79,13 +79,13 @@ public class GrrrDB {
     public List<GrievanceType> selectAllGrievanceTypes() {
         List<GrievanceType> tempList = new ArrayList<>();
         Cursor cursor = mSQLiteDB.rawQuery("select " +
-                "gtyp.grievanceTypeID, " +
+                "gtyp." + BlackBileDatabaseHelper.COLUMN_ID + ", " +
                 "gtyp.grievanceTypeName, " +
                 "gtyp.createDateTime, " +
-                "count(gtk.grievanceTokenID) AS countInstances " +
+                "count(gtk." + BlackBileDatabaseHelper.COLUMN_ID + ") AS countInstances " +
                 "FROM grievanceTypes AS gtyp " +
-                "LEFT OUTER JOIN grievanceTokens AS gtk on gtyp.grievanceTypeID = gtk.grievanceTypeID " +
-                "GROUP BY gtyp.grievanceTypeID; ", null);
+                "LEFT OUTER JOIN grievanceTokens AS gtk on gtyp." + BlackBileDatabaseHelper.COLUMN_ID + " = gtk.grievanceTypeID " +
+                "GROUP BY gtyp." + BlackBileDatabaseHelper.COLUMN_ID + "; ", null);
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("grievanceTypeName"));
             String dateString = cursor.getString(cursor.getColumnIndex("createDateTime"));
@@ -107,9 +107,9 @@ public class GrrrDB {
     public int selectCountOfGrievancesByType(int typeID) {
         int count = 0;
         String[] args = new String[]{String.format("%02d", typeID)};
-        Cursor cursor = mSQLiteDB.rawQuery("select COUNT(*) as count from " +
+        Cursor cursor = mSQLiteDB.rawQuery("SELECT COUNT(*) AS count from " +
                 "grievanceTypes gtyp " +
-                "INNER JOIN grievances g on gtyp.grievanceTypeID = g.grievanceTypeID " +
+                "INNER JOIN grievances g on gtyp." + BlackBileDatabaseHelper.COLUMN_ID + " = g.grievanceTypeID " +
                 "WHERE gtyp.grievanceTypeID = ?", args);
         if (cursor.moveToFirst()) {
             count = cursor.getInt(cursor.getColumnIndex("count"));
@@ -130,7 +130,7 @@ public class GrrrDB {
      */
     public Cursor getTagsCursor() {
         return mSQLiteDB.rawQuery("select " +
-                "grievanceTagID as _id, " +
+                BlackBileDatabaseHelper.COLUMN_ID +  ", " +
                 "grievanceTagName " +
                 " from grievanceTags", null);
     }
@@ -139,13 +139,13 @@ public class GrrrDB {
         try {
             ContentValues typeValues = new ContentValues();
             typeValues.put("grievanceTypeName", newGrievanceType.getName());
-            typeValues.put("createDateTime", GrrrDatabaseHelper.DATE_FORMAT.format(newGrievanceType.getCreateDate()));
+            typeValues.put("createDateTime", BlackBileDatabaseHelper.DATE_FORMAT.format(newGrievanceType.getCreateDate()));
             final long typeRowId = mSQLiteDB.insertWithOnConflict("grievanceTypes", null, typeValues, SQLiteDatabase.CONFLICT_IGNORE);
 
             for (GrievanceTag tag : newGrievanceType.getGrievanceTags()) {
                 ContentValues tagValues = new ContentValues();
                 tagValues.put("grievanceTagName", tag.getName());
-                tagValues.put("createDateTime", GrrrDatabaseHelper.DATE_FORMAT.format(tag.getDateCreated()));
+                tagValues.put("createDateTime", BlackBileDatabaseHelper.DATE_FORMAT.format(tag.getDateCreated()));
                 final long tagRowId = mSQLiteDB.insertWithOnConflict("grievanceTags", null, tagValues, SQLiteDatabase.CONFLICT_IGNORE);
 
                 ContentValues tagTypeValues = new ContentValues();
@@ -169,8 +169,8 @@ public class GrrrDB {
         try {
             //TODO: need to implement proper relationships etcs.
             mSQLiteDB.execSQL("INSERT INTO grievanceTokens (grievanceTypeId, createDateTime) " +
-                    "select grievanceTypeId, " +
-                    GrrrDatabaseHelper.DATE_FORMAT.format(grievanceType.getCreateDate()) + " " +
+                    "select " + BlackBileDatabaseHelper.COLUMN_ID + ", " +
+                    BlackBileDatabaseHelper.DATE_FORMAT.format(grievanceType.getCreateDate()) + " " +
                     "FROM grievanceTypes " +
                     "WHERE grievanceTypeName = " + grievanceType.getName());
             return true;

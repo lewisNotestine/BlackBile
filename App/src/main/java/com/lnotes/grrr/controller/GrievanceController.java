@@ -1,9 +1,9 @@
 package com.lnotes.grrr.controller;
 
-import com.lnotes.grrr.data.GrievanceLruCache;
-import com.lnotes.grrr.data.GrievanceTagLruCache;
-import com.lnotes.grrr.data.GrievanceTypeLruCache;
-import com.lnotes.grrr.data.GrrrDB;
+import com.lnotes.grrr.data.cache.GrievanceLruCache;
+import com.lnotes.grrr.data.cache.GrievanceTagLruCache;
+import com.lnotes.grrr.data.cache.GrievanceTypeLruCache;
+import com.lnotes.grrr.data.definition.GrrrDB;
 import com.lnotes.grrr.data.model.Grievance;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;

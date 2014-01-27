@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lnotes.grrr.R;
-import com.lnotes.grrr.data.GrrrDB;
+import com.lnotes.grrr.data.definition.GrrrDB;
 import com.lnotes.grrr.data.model.GrievanceType;
 
 import java.util.Timer;

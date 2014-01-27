@@ -14,13 +14,9 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.lnotes.grrr.R;
-import com.lnotes.grrr.data.GrrrDB;
+import com.lnotes.grrr.data.definition.GrrrDB;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <p>

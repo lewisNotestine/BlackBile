@@ -1,4 +1,4 @@
-package com.lnotes.grrr.data;
+package com.lnotes.grrr.data.cache;
 
 import android.support.v4.util.LruCache;
 
