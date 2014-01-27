@@ -4,7 +4,7 @@ import com.lnotes.grrr.data.GrievanceLruCache;
 import com.lnotes.grrr.data.GrievanceTagLruCache;
 import com.lnotes.grrr.data.GrievanceTypeLruCache;
 import com.lnotes.grrr.data.GrrrDB;
-import com.lnotes.grrr.data.model.Grievance;
+import com.lnotes.grrr.data.model.GrievanceToken;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
 
@@ -23,7 +23,7 @@ public class GrievanceController {
     private GrievanceTagLruCache mGrievanceTagCache;
 
     private HashMap<Integer, GrievanceType> mGrievanceTypes;
-    private HashMap<Integer, Grievance> mGrievances;
+    private HashMap<Integer, GrievanceToken> mGrievances;
     private HashMap<Integer, GrievanceTag> mGrievanceTags;
 
     protected GrievanceController() {
