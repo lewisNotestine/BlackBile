@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.lnotes.grrr.R;
-import com.lnotes.grrr.data.definition.GrrrDB;
+import com.lnotes.grrr.data.dao.DaoController;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
 
@@ -85,7 +85,7 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
 
         public TagsCursorAdapter(Context context, int flags) {
             super(context, TAG_TO_RESOURCE_IDS[0],
-                    GrrrDB.getInstance().getTagsCursor(),
+                    DaoController.getInstance().getTagsCursor(),
                     TAG_DISPLAY_SOURCE_COLUMNS,
                     TAG_AUTOCOMPLETE_LAYOUT,
                     flags);
@@ -113,7 +113,7 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
                     }
                 }
 
-                GrrrDB.getInstance().insertGrievanceType(newGrievanceType);
+                DaoController.getInstance().insertGrievanceType(newGrievanceType);
                 updateListAdapter();
                 dismiss();
             }

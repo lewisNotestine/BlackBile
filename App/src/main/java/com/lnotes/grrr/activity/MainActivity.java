@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.lnotes.grrr.NavigationDrawerFragment;
 import com.lnotes.grrr.R;
+import com.lnotes.grrr.data.dao.DaoController;
 import com.lnotes.grrr.data.definition.BlackBileDatabaseHelper;
 import com.lnotes.grrr.data.model.Grievance;
-import com.lnotes.grrr.data.definition.GrrrDB;
 import com.lnotes.grrr.fragment.GrievanceTypeListFragment;
 
 public class MainActivity extends ActionBarActivity
@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        GrrrDB.createInstance(BlackBileDatabaseHelper.getInstance());
+        DaoController.createInstance(BlackBileDatabaseHelper.getInstance());
     }
 
     @Override
@@ -149,7 +149,7 @@ public class MainActivity extends ActionBarActivity
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             StringBuilder builder = new StringBuilder();
 
-            for (Grievance grievance : GrrrDB.getInstance().selectAllGrievances()) {
+            for (Grievance grievance : DaoController.getInstance().selectAllGrievances()) {
                 builder.append(grievance.toString());
             }
 

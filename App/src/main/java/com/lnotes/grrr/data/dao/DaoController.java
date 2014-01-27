@@ -1,10 +1,11 @@
-package com.lnotes.grrr.data.definition;
+package com.lnotes.grrr.data.dao;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.lnotes.grrr.data.definition.BlackBileDatabaseHelper;
 import com.lnotes.grrr.data.model.Grievance;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
@@ -20,25 +21,25 @@ import java.util.List;
  * </p>
  * Created by LN_1 on 12/11/13.
  */
-public class GrrrDB {
+public class DaoController {
 
     private SQLiteDatabase mSQLiteDB;
-    private static GrrrDB sInstance;
+    private static DaoController sInstance;
 
     public static void createInstance(SQLiteOpenHelper helper) {
         if (sInstance == null) {
-            sInstance = new GrrrDB(helper);
+            sInstance = new DaoController(helper);
         }
     }
 
-    public static GrrrDB getInstance() {
+    public static DaoController getInstance() {
         if (sInstance == null) {
             throw new NullPointerException("You should have called createInstance first!");
         }
         return sInstance;
     }
 
-    private GrrrDB(SQLiteOpenHelper dbHelper) {
+    private DaoController(SQLiteOpenHelper dbHelper) {
         mSQLiteDB = dbHelper.getWritableDatabase();
     }
 

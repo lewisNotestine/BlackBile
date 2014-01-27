@@ -14,7 +14,7 @@ import java.util.Set;
  * </p>
  * Created by LN_1 on 12/17/13.
  */
-public class GrievanceType {
+public class GrievanceType extends ModelType {
 
     private String mTypeName;
     private Date mCreateDateTime;

@@ -11,7 +11,7 @@ import java.util.Set;
  * </p>
  * Created by LN_1 on 12/11/13.
  */
-public class Grievance {
+public class Grievance extends ModelType {
 
     private int mTypeID;
     private int mTokenID;

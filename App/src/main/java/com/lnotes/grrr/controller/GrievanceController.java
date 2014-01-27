@@ -3,7 +3,7 @@ package com.lnotes.grrr.controller;
 import com.lnotes.grrr.data.cache.GrievanceLruCache;
 import com.lnotes.grrr.data.cache.GrievanceTagLruCache;
 import com.lnotes.grrr.data.cache.GrievanceTypeLruCache;
-import com.lnotes.grrr.data.definition.GrrrDB;
+import com.lnotes.grrr.data.dao.DaoController;
 import com.lnotes.grrr.data.model.Grievance;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
@@ -44,10 +44,10 @@ public class GrievanceController {
     }
 
     public static List<GrievanceType> getCurrentGrievanceTypes() {
-        return GrrrDB.getInstance().selectAllGrievanceTypes();
+        return DaoController.getInstance().selectAllGrievanceTypes();
     }
 
     public int getCountOfGrievancesOfType(int typeID) {
-        return GrrrDB.getInstance().selectCountOfGrievancesByType(typeID);
+        return DaoController.getInstance().selectCountOfGrievancesByType(typeID);
     }
 }

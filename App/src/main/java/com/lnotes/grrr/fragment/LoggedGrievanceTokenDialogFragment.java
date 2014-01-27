@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lnotes.grrr.R;
-import com.lnotes.grrr.data.definition.GrrrDB;
+import com.lnotes.grrr.data.dao.DaoController;
 import com.lnotes.grrr.data.model.GrievanceType;
 
 import java.util.Timer;
@@ -73,7 +73,7 @@ public class LoggedGrievanceTokenDialogFragment extends DialogFragment {
     private class AutoDismissTimerTask extends TimerTask {
         @Override
         public void run() {
-            GrrrDB.getInstance().insertGrievanceToken(mGrievanceType);
+            DaoController.getInstance().insertGrievanceToken(mGrievanceType);
             dismiss();
         }
     }

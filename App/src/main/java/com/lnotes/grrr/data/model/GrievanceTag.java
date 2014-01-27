@@ -8,7 +8,7 @@ import java.util.Date;
  * </p>
  * Created by LN_1 on 12/11/13.
  */
-public class GrievanceTag {
+public class GrievanceTag extends ModelType {
 
     private String mName;
     private Date mDateCreated;
