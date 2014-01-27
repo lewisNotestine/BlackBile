@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.lnotes.grrr.NavigationDrawerFragment;
 import com.lnotes.grrr.R;
-import com.lnotes.grrr.data.model.Grievance;
+import com.lnotes.grrr.data.model.GrievanceToken;
 import com.lnotes.grrr.data.GrrrDB;
 import com.lnotes.grrr.data.GrrrDatabaseHelper;
 import com.lnotes.grrr.fragment.GrievanceTypeListFragment;
@@ -149,8 +149,8 @@ public class MainActivity extends ActionBarActivity
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             StringBuilder builder = new StringBuilder();
 
-            for (Grievance grievance : GrrrDB.getInstance().selectAllGrievances()) {
-                builder.append(grievance.toString());
+            for (GrievanceToken grievanceToken : GrrrDB.getInstance().selectAllGrievances()) {
+                builder.append(grievanceToken.toString());
             }
 
             textView.setText(builder.toString());

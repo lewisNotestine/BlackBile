@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * <p>
- * Class for encapsulating all data that represent a type of Grievance.  Also serves as bookkeeping for aggregate information about {@link Grievance}
+ * Class for encapsulating all data that represent a type of GrievanceToken.  Also serves as bookkeeping for aggregate information about {@link GrievanceToken}
  * objects of this grievanceType
  * </p>
  * Created by LN_1 on 12/17/13.
@@ -21,7 +21,7 @@ public class GrievanceType {
     private Set<GrievanceTag> mGrievanceTags;
 
     /**
-     * Tracks the number of {@link com.lnotes.grrr.data.model.Grievance} objects of this type constructed
+     * Tracks the number of {@link GrievanceToken} objects of this type constructed
      */
     private int mCountInstances;
 

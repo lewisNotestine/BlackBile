@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.lnotes.grrr.data.model.Grievance;
+import com.lnotes.grrr.data.model.GrievanceToken;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
 
@@ -47,7 +47,7 @@ public class GrrrDB {
      * gets all grievances, independent of tags.
      * </p>
      */
-    public List<Grievance> selectAllGrievances() {
+    public List<GrievanceToken> selectAllGrievances() {
         Cursor cursor = mSQLiteDB.rawQuery("select " +
                 "gty.grievanceTypeID, " +
                 "gtk.grievanceTokenID, " +
@@ -55,15 +55,15 @@ public class GrrrDB {
                 "gtk.createDateTime " +
                 "from grievanceTokens AS gtk " +
                 "inner join grievanceTypes AS gty on gtk.grievanceTypeID = gty.grievanceTypeID", null);
-        List<Grievance> outList = new ArrayList<Grievance>();
+        List<GrievanceToken> outList = new ArrayList<GrievanceToken>();
         while (cursor.moveToNext()) {
             int typeID = cursor.getInt(cursor.getColumnIndex("grievanceTypeID"));
             int tokenID = cursor.getInt(cursor.getColumnIndex("grievanceTokenID"));
             String name = cursor.getString(cursor.getColumnIndex("grievanceTypeName"));
 
-            //TODO: We'll eventually mediate all calls to create grievance object to the grievanceController.
-            Grievance grievance = new Grievance(typeID, tokenID, name);
-            outList.add(grievance);
+            //TODO: We'll eventually mediate all calls to create grievanceToken object to the grievanceController.
+            GrievanceToken grievanceToken = new GrievanceToken(typeID, tokenID, name);
+            outList.add(grievanceToken);
         }
 
         return outList;
@@ -71,7 +71,7 @@ public class GrrrDB {
 
     /**
      * <p>
-     * Return all the distinct Grievance Types from the database.
+     * Return all the distinct GrievanceToken Types from the database.
      * </p>
      *
      * @return A list of all the GrievanceTypes in the DB.
