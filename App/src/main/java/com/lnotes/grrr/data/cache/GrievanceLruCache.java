@@ -2,12 +2,12 @@ package com.lnotes.grrr.data.cache;
 
 import android.support.v4.util.LruCache;
 
-import com.lnotes.grrr.data.model.Grievance;
+import com.lnotes.grrr.data.model.GrievanceToken;
 
 /**
  * Created by LN_1 on 12/24/13.
  */
-public class GrievanceLruCache extends LruCache<Integer, Grievance> {
+public class GrievanceLruCache extends LruCache<Integer, GrievanceToken> {
 
     private static final int GRIEVANCE_CACHE_SIZE = 2 * 1024 * 1024;
 
@@ -17,12 +17,12 @@ public class GrievanceLruCache extends LruCache<Integer, Grievance> {
 
     /**
      * <p>
-     * Hits the database to get the right {@link com.lnotes.grrr.data.model.Grievance} object.
+     * Hits the database to get the right {@link com.lnotes.grrr.data.model.GrievanceToken} object.
      * </p>
      */
     @Override
-    protected Grievance create(Integer key) {
-        //TODO: hit the DB to get the right Grievance.
+    protected GrievanceToken create(Integer key) {
+        //TODO: hit the DB to get the right GrievanceToken.
         return null;
     }
 }

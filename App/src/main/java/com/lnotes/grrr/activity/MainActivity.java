@@ -16,9 +16,12 @@ import android.widget.TextView;
 
 import com.lnotes.grrr.NavigationDrawerFragment;
 import com.lnotes.grrr.R;
+
 import com.lnotes.grrr.data.dao.DaoController;
 import com.lnotes.grrr.data.definition.BlackBileDatabaseHelper;
-import com.lnotes.grrr.data.model.Grievance;
+import com.lnotes.grrr.data.model.GrievanceToken;
+
+
 import com.lnotes.grrr.fragment.GrievanceTypeListFragment;
 
 public class MainActivity extends ActionBarActivity
@@ -149,8 +152,8 @@ public class MainActivity extends ActionBarActivity
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             StringBuilder builder = new StringBuilder();
 
-            for (Grievance grievance : DaoController.getInstance().selectAllGrievances()) {
-                builder.append(grievance.toString());
+            for (GrievanceToken grievanceToken : DaoController.getInstance().selectAllGrievances()) {
+                builder.append(grievanceToken.toString());
             }
 
             textView.setText(builder.toString());

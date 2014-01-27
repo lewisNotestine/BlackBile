@@ -2,16 +2,15 @@ package com.lnotes.grrr.data.model;
 
 import android.nfc.Tag;
 
-import java.util.List;
 import java.util.Set;
 
 /**
  * <p>
- * Represents an instance of the Grievance class. Stores a GrievanceType and
+ * Represents an instance of the GrievanceToken class. Stores a GrievanceType and
  * </p>
  * Created by LN_1 on 12/11/13.
  */
-public class Grievance extends ModelType {
+public class GrievanceToken extends ModelType {
 
     private int mTypeID;
     private int mTokenID;
@@ -24,7 +23,7 @@ public class Grievance extends ModelType {
     /** Tags to be subtracted from teh default given by {@link #mGrievanceType}*/
     private Set<Tag> mSubtractedTags;
 
-    public Grievance(int typeID, int tokenID, String name) {
+    public GrievanceToken(int typeID, int tokenID, String name) {
         mTypeID = typeID;
         mTokenID = tokenID;
         mName = name;
@@ -33,7 +32,7 @@ public class Grievance extends ModelType {
 
     @Override
     public boolean equals(Object otherIssue) {
-        return otherIssue instanceof Grievance && ((Grievance) otherIssue).mTypeID == mTypeID;
+        return otherIssue instanceof GrievanceToken && ((GrievanceToken) otherIssue).mTypeID == mTypeID;
     }
 
     @Override
