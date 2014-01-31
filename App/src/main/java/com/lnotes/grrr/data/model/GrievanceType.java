@@ -1,6 +1,6 @@
 package com.lnotes.grrr.data.model;
 
-import com.lnotes.grrr.data.GrrrDatabaseHelper;
+import com.lnotes.grrr.data.definition.BlackBileDatabaseHelper;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -14,7 +14,7 @@ import java.util.Set;
  * </p>
  * Created by LN_1 on 12/17/13.
  */
-public class GrievanceType {
+public class GrievanceType extends ModelType {
 
     private String mTypeName;
     private Date mCreateDateTime;
@@ -32,7 +32,7 @@ public class GrievanceType {
     public GrievanceType(String typeName, String createDateString, int countInstances) {
         try {
             mTypeName = typeName;
-            mCreateDateTime = GrrrDatabaseHelper.DATE_FORMAT.parse(createDateString);
+            mCreateDateTime = BlackBileDatabaseHelper.DATE_FORMAT.parse(createDateString);
             mGrievanceTags = new HashSet<>();
             mCountInstances = countInstances;
         } catch (ParseException ex) {
@@ -45,7 +45,7 @@ public class GrievanceType {
      * (rather than reading one from the database).
      */
     public GrievanceType(String typeName) {
-       this(typeName, GrrrDatabaseHelper.DATE_FORMAT.format(new Date()), 0);
+       this(typeName, BlackBileDatabaseHelper.DATE_FORMAT.format(new Date()), 0);
     }
 
     @Override

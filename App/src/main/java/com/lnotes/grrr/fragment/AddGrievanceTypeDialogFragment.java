@@ -14,13 +14,9 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import com.lnotes.grrr.R;
-import com.lnotes.grrr.data.GrrrDB;
+import com.lnotes.grrr.data.dao.DaoController;
 import com.lnotes.grrr.data.model.GrievanceTag;
 import com.lnotes.grrr.data.model.GrievanceType;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <p>
@@ -89,7 +85,7 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
 
         public TagsCursorAdapter(Context context, int flags) {
             super(context, TAG_TO_RESOURCE_IDS[0],
-                    GrrrDB.getInstance().getTagsCursor(),
+                    DaoController.getInstance().getTagsCursor(),
                     TAG_DISPLAY_SOURCE_COLUMNS,
                     TAG_AUTOCOMPLETE_LAYOUT,
                     flags);
@@ -112,12 +108,12 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
                 if (cursor != null && cursor.getCount() > 0) {
                     while (cursor.moveToNext()) {
                         final String tagName = cursor.getString(cursor.getColumnIndex("grievanceTagName")); //TODO: named constants for column names.
-                        GrievanceTag newGrievanceTag = new GrievanceTag(tagName);
+                        GrievanceTag newGrievanceTag = new GrievanceTag(tagName); //TODO: this constructor here is no good.
                         newGrievanceType.addGrievanceTag(newGrievanceTag);
                     }
                 }
 
-                GrrrDB.getInstance().insertGrievanceType(newGrievanceType);
+                DaoController.getInstance().insertGrievanceType(newGrievanceType);
                 updateListAdapter();
                 dismiss();
             }
