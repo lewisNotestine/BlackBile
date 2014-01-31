@@ -2,6 +2,7 @@ package com.lnotes.grrr.data.model;
 
 import android.nfc.Tag;
 
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -12,10 +13,11 @@ import java.util.Set;
  */
 public class GrievanceToken extends ModelType {
 
-    private int mTypeID;
+    private final long mTypeID;
     private int mTokenID;
-    private String mName;
-    private GrievanceType mGrievanceType;
+    private final Date mCreateDate;
+    private String mName; //TODO: should this be "notes" or "description" instead?
+    private GrievanceType mGrievanceType; //TODO: should this be here?
 
     /** Tags to be added to the default given by {@link #mGrievanceType}*/
     private Set<Tag> mAddedTags;
@@ -26,8 +28,19 @@ public class GrievanceToken extends ModelType {
     public GrievanceToken(int typeID, int tokenID, String name) {
         mTypeID = typeID;
         mTokenID = tokenID;
+        mCreateDate = new Date(); //TODO: don't just new up a date.
         mName = name;
         //TODO: mGrievanceType = [get it from some LRU cache or something.]
+    }
+
+
+    /**
+     * This is the constructor we use when the user creates a new Token.
+     */
+    public GrievanceToken(final GrievanceType type) {
+        mTypeID = type.getID();
+        mCreateDate = new Date();
+        mGrievanceType = type;
     }
 
     @Override
@@ -38,7 +51,7 @@ public class GrievanceToken extends ModelType {
     @Override
     public int hashCode() {
         int hash = 1;
-        hash = hash * 17 + mTypeID;
+        hash = hash * 17 + (int)mTypeID;
         return hash;
     }
 
@@ -49,6 +62,14 @@ public class GrievanceToken extends ModelType {
                 .append("Name: ").append(mName)
                 .append('\n')
                 .toString();
+    }
+
+    public Date getCreateDate() {
+        return mCreateDate;
+    }
+
+    public long getTypeID() {
+        return mTypeID;
     }
 
 }

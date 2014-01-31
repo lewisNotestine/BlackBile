@@ -108,7 +108,7 @@ public class AddGrievanceTypeDialogFragment extends DialogFragment {
                 if (cursor != null && cursor.getCount() > 0) {
                     while (cursor.moveToNext()) {
                         final String tagName = cursor.getString(cursor.getColumnIndex("grievanceTagName")); //TODO: named constants for column names.
-                        GrievanceTag newGrievanceTag = new GrievanceTag(tagName);
+                        GrievanceTag newGrievanceTag = new GrievanceTag(tagName); //TODO: this constructor here is no good.
                         newGrievanceType.addGrievanceTag(newGrievanceTag);
                     }
                 }
