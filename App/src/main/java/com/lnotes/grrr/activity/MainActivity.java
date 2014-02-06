@@ -21,6 +21,8 @@ import com.lnotes.grrr.data.dao.DaoController;
 import com.lnotes.grrr.data.definition.BlackBileDatabaseHelper;
 import com.lnotes.grrr.data.model.GrievanceToken;
 
+import com.newrelic.agent.android.NewRelic;
+
 
 import com.lnotes.grrr.fragment.GrievanceTypeListFragment;
 
@@ -29,15 +31,24 @@ public class MainActivity extends ActionBarActivity
 
     private static final int TAGS_DRAWER_POSITION = 0;
 
-    /**Fragment managing the behaviors, interactions and presentation of the navigation drawer.*/
+    /**
+     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+     */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**Used to store the last screen title. For use in {@link #restoreActionBar()}. */
+    /**
+     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+     */
     private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        NewRelic.withApplicationToken(
+                "AAc5aea0f6b3fcf761bae22d2dc3e4ac5abf78941e"
+        ).start(this.getApplication());
+
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -147,7 +158,7 @@ public class MainActivity extends ActionBarActivity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             StringBuilder builder = new StringBuilder();
