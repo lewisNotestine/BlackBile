@@ -4,9 +4,11 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.newrelic.agent.android:agent-gradle-plugin:3.264.0'
     }
 }
 apply plugin: 'android'
+apply plugin: 'newrelic'
 
 repositories {
     mavenCentral()
@@ -41,4 +43,6 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:19.0.0'
     compile 'com.android.support:appcompat-v7:19.0.0'
+
+    compile 'com.newrelic.agent.android:android-agent:3.264.0'
 }
