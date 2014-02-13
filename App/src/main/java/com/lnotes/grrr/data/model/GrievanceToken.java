@@ -18,6 +18,7 @@ public class GrievanceToken extends ModelType {
     private final Date mCreateDate;
     private String mName; //TODO: should this be "notes" or "description" instead?
     private GrievanceType mGrievanceType; //TODO: should this be here?
+    private float mMagnitude;
 
     /** Tags to be added to the default given by {@link #mGrievanceType}*/
     private Set<Tag> mAddedTags;
@@ -25,22 +26,25 @@ public class GrievanceToken extends ModelType {
     /** Tags to be subtracted from teh default given by {@link #mGrievanceType}*/
     private Set<Tag> mSubtractedTags;
 
-    public GrievanceToken(int typeID, int tokenID, String name) {
+    public GrievanceToken(final int typeID, final int tokenID, final String name, final float magnitude) {
         mTypeID = typeID;
         mTokenID = tokenID;
         mCreateDate = new Date(); //TODO: don't just new up a date.
         mName = name;
+        mMagnitude = magnitude;
         //TODO: mGrievanceType = [get it from some LRU cache or something.]
     }
 
 
     /**
      * This is the constructor we use when the user creates a new Token.
+     * The id is set when it is written to the db.
      */
-    public GrievanceToken(final GrievanceType type) {
+    public GrievanceToken(final GrievanceType type, final float magnitude) {
         mTypeID = type.getID();
         mCreateDate = new Date();
         mGrievanceType = type;
+        mMagnitude = magnitude;
     }
 
     @Override
@@ -71,5 +75,14 @@ public class GrievanceToken extends ModelType {
     public long getTypeID() {
         return mTypeID;
     }
+
+    public float getMagnitude() {
+        return mMagnitude;
+    }
+
+    public void setMagnitude(final float magnitude) {
+        mMagnitude = magnitude;
+    }
+
 
 }

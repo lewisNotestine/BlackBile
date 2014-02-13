@@ -64,12 +64,13 @@ public class GrievanceTokenDao extends Dao<GrievanceToken> {
                 "INNER JOIN " + GrievanceTypesTable.TABLE_GRIEVANCE_TYPES + " AS gty on gtk." + GrievanceTokensTable.COLUMN_GRIEVANCE_TYPE_ID + " = gty." + BlackBileDatabaseHelper.COLUMN_ID, null);
         List<GrievanceToken> outList = new ArrayList<GrievanceToken>();
         while (cursor.moveToNext()) {
-            int typeID = cursor.getInt(cursor.getColumnIndex("grievanceTypeID"));
-            int tokenID = cursor.getInt(cursor.getColumnIndex("grievanceTokenID"));
+            final int typeID = cursor.getInt(cursor.getColumnIndex("grievanceTypeID"));
+            final int tokenID = cursor.getInt(cursor.getColumnIndex("grievanceTokenID"));
+            final float magnitude = cursor.getFloat(cursor.getColumnIndex(GrievanceTokensTable.COLUMN_MAGNITUDE));
             String name = cursor.getString(cursor.getColumnIndex(GrievanceTypesTable.COLUMN_GRIEVANCE_TYPE_NAME));
 
             //TODO: We'll eventually mediate all calls to create grievanceToken object to the grievanceController.
-            GrievanceToken grievanceToken = new GrievanceToken(typeID, tokenID, name);
+            GrievanceToken grievanceToken = new GrievanceToken(typeID, tokenID, name, magnitude);
             outList.add(grievanceToken);
         }
 

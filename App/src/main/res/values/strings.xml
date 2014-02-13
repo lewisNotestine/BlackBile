@@ -25,5 +25,8 @@
 
     <string name="dialog_addgrievancetoken_added">Grievance logged!</string>
     <string name="undo">Undo</string>
+    <string name="done">Done!</string>
+    <string name="magnitude">How bad is it?</string>
+    <string name="set_magnitude_toast">Tell me how bad it is to log it!</string>
 
 </resources>

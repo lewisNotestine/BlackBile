@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.lnotes.grrr.R;
 import com.lnotes.grrr.data.dao.DaoController;
@@ -22,14 +24,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class LoggedGrievanceTokenDialogFragment extends DialogFragment {
 
-    private static final long WAIT_FIVE_SECONDS = TimeUnit.SECONDS.toMillis(5);
-    private Timer mTimer;
     private GrievanceType mGrievanceType;
+    private EditText mMagnitudeEditText;
 
     public LoggedGrievanceTokenDialogFragment(GrievanceType grievanceType) {
         super();
         mGrievanceType = grievanceType;
-        mTimer = new Timer();
     }
 
     @Override
@@ -42,42 +42,36 @@ public class LoggedGrievanceTokenDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_addgrievancetoken_dialog, container, false);
         if (view != null) {
-            final Button undoButton = (Button) view.findViewById(R.id.dialog_addgrievancetoken_undoadd);
-            undoButton.setOnClickListener(new UndoListener());
+            final Button doneButton = (Button) view.findViewById(R.id.dialog_addgrievancetoken_done);
+            mMagnitudeEditText = (EditText) view.findViewById(R.id.dialog_addgrievancetoken_magnitudetext);
+            doneButton.setOnClickListener(new DoneListener());
         }
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mTimer = new Timer();
-        mTimer.schedule(new AutoDismissTimerTask(), WAIT_FIVE_SECONDS);
-    }
-
 
     /**
-     * Listener whose job is to cancel the db insert operation.
+     * Validates the data, performs the DB insert and dismisses the dialog.
      */
-    private class UndoListener implements View.OnClickListener {
+    private class DoneListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            mTimer.cancel();
-            mTimer.purge();
-            dismiss();
+
+            //Check if we have valid data, and if so insert it.
+            if (mMagnitudeEditText.getText() != null && mMagnitudeEditText.getText().length() <= 0) {
+                raiseSetMagnitudeToast();
+            } else {
+                final float magnitude = Float.valueOf(mMagnitudeEditText.getText().toString());
+                final GrievanceToken newToken = new GrievanceToken(mGrievanceType, magnitude);
+                DaoController.getInstance().insertGrievanceToken(newToken);
+                dismiss();
+            }
         }
     }
 
-    /**
-     * Performs the DB insert and dismisses the fragment.
-     */
-    private class AutoDismissTimerTask extends TimerTask {
-        @Override
-        public void run() {
-            final GrievanceToken newToken = new GrievanceToken(mGrievanceType);
 
-            DaoController.getInstance().insertGrievanceToken(newToken);
-            dismiss();
-        }
+    /**Raise a toast to remind the user they need to set the magnitude.*/
+    private void raiseSetMagnitudeToast() {
+        Toast.makeText(getActivity(), R.string.set_magnitude_toast, Toast.LENGTH_SHORT).show();
     }
 }
