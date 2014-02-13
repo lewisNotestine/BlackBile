@@ -11,6 +11,7 @@ public class GrievanceTokensTable implements DatabaseTable{
     public static final String TABLE_GRIEVANCE_TOKENS = "grievanceTokens";
     public static final String COLUMN_GRIEVANCE_TYPE_ID = "grievanceTypeID";
     public static final String COLUMN_CREATE_DATE_TIME = "createDateTime";
+    public static final String COLUMN_MAGNITUDE = "magnitude";
 
 
     /**
@@ -21,6 +22,7 @@ public class GrievanceTokensTable implements DatabaseTable{
     private static final String CREATE_GRIEVANCE_TOKENS = "CREATE TABLE " + TABLE_GRIEVANCE_TOKENS + " (" + BlackBileDatabaseHelper.COLUMN_ID + " integer primary key autoincrement, " +
             COLUMN_GRIEVANCE_TYPE_ID + " integer not null," +
             COLUMN_CREATE_DATE_TIME + " text not null," +
+            COLUMN_MAGNITUDE + " REAL not null, " +
             "FOREIGN KEY(" + COLUMN_GRIEVANCE_TYPE_ID + ") REFERENCES " + GrievanceTypesTable.TABLE_GRIEVANCE_TYPES +  "(" + BlackBileDatabaseHelper.COLUMN_ID + "));";
 
     public static GrievanceTokensTable getInstance() {
