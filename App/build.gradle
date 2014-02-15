@@ -34,7 +34,7 @@ android {
         }
     }
     productFlavors {
-        defaultFlavor {
+        dev {
             proguardFile 'proguard-rules.txt'
         }
     }
