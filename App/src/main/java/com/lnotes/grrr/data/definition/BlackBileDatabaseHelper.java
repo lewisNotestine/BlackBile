@@ -64,11 +64,11 @@ public class BlackBileDatabaseHelper extends SQLiteOpenHelper {
         database.execSQL("insert into grievanceTags(grievanceTagName, createDateTime) VALUES('tagName2', '2013-12-11');");
         database.execSQL("insert into grievanceTags(grievanceTagName, createDateTime) VALUES('tagName3', '2013-12-11');");
         database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName', '2013-12-11');");
-        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 1, '2013-12-11');");
-        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 1, '2013-12-11');");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime, magnitude) VALUES( 1, '2013-12-11', 0.4);");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime, magnitude) VALUES( 1, '2013-12-11', 10.4);");
         database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName2', '2013-12-11');");
         database.execSQL("insert into grievanceTypes(grievanceTypeName, createDateTime) VALUES('testGrievanceName3', '2013-12-11');");
-        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 2, '2013-12-11');");
-        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime) VALUES( 3, '2013-12-11');");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime, magnitude) VALUES( 2, '2013-12-11', 4.2);");
+        database.execSQL("insert into grievanceTokens(grievanceTypeID, createDateTime, magnitude) VALUES( 3, '2013-12-11', 20.3);");
     }
 }
