@@ -41,10 +41,16 @@ public class GrievanceTypeDao extends Dao<GrievanceType> {
                 tagValues.put(GrievanceTagsTable.COLUMN_CREATE_DATE_TIME, BlackBileDatabaseHelper.DATE_FORMAT.format(tag.getDateCreated()));
                 final long tagRowId = getDatabase().insertWithOnConflict(GrievanceTagsTable.TABLE_GRIEVANCE_TAGS, null, tagValues, SQLiteDatabase.CONFLICT_IGNORE);
 
-                ContentValues tagTypeValues = new ContentValues();
-                tagTypeValues.put(GrievanceTypesTagsTable.COLUMN_GRIEVANCE_TYPE_ID, typeRowId);
-                tagTypeValues.put(GrievanceTypesTagsTable.COLUMN_GRIEVANCE_TAG_ID, tagRowId);
-                getDatabase().insertWithOnConflict(GrievanceTypesTagsTable.TABLE_GRIEVANCE_TYPES_TAGS, null, tagTypeValues, SQLiteDatabase.CONFLICT_IGNORE);
+                //This check condition shouldn't obtain, but if we ever use an algorithm other than CONFLICT_IGNORE,
+                // then we'll have to do a check here (can sometimes return -1 otherwise).
+                if (tagRowId != -1) {
+                    tag.setID(tagRowId);
+
+                    ContentValues tagTypeValues = new ContentValues();
+                    tagTypeValues.put(GrievanceTypesTagsTable.COLUMN_GRIEVANCE_TYPE_ID, typeRowId);
+                    tagTypeValues.put(GrievanceTypesTagsTable.COLUMN_GRIEVANCE_TAG_ID, tagRowId);
+                    getDatabase().insertWithOnConflict(GrievanceTypesTagsTable.TABLE_GRIEVANCE_TYPES_TAGS, null, tagTypeValues, SQLiteDatabase.CONFLICT_IGNORE);
+                }
             }
 
             return typeRowId;
